@@ -1,0 +1,216 @@
+run:
+  concurrency: 0
+  timeout: 5m
+  issues-exit-code: 1
+  tests: false
+  build-tags: [ ]
+  modules-download-mode: readonly
+  allow-parallel-runners: true
+  go: '1.22'
+
+output:
+  formats:
+    - format: colored-line-number
+      path: stdout
+
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: true
+  path-prefix: ""
+  sort-results: true
+
+linters-settings:
+  funlen:
+    lines: 80
+    statements: 40
+
+  gocognit:
+    min-complexity: 30
+
+  gosec:
+    exclude-generated: false
+    excludes:
+      - G601
+      - G115
+
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+    ignore-tests: true
+    match-constant: true
+    tagliatelle:
+    case:
+      use-field-name: true
+      rules:
+        json: camel
+        yaml: camel
+        xml: camel
+        toml: camel
+        env: upperSnake
+        envconfig: upperSnake
+
+  varnamelen:
+    max-distance: 8 
+    min-name-length: 3
+    check-receiver: true
+    check-return: true
+    check-type-param: true
+    ignore-type-assert-ok: true
+    ignore-map-index-ok: true
+    ignore-chan-recv-ok: true
+
+    ignore-names:
+      - id
+      - ip
+      - ok
+      - c # for client
+      - s # for storage
+
+    ignore-decls:
+      - t testing.T
+      - i int
+
+  wsl:
+    strict-append: true
+    allow-assign-and-call: true
+    allow-assign-and-anything: false
+    allow-multiline-assign: true
+    allow-separated-leading-comment: true
+    force-case-trailing-whitespace: 2
+    allow-cuddle-declarations: false
+    allow-trailing-comment: true
+    force-err-cuddling: false
+
+  nolintlint:
+    allow-unused: false
+    require-specific: false
+    require-explanation: true
+    allow-no-explanation: [ ]
+
+  decorder:
+    dec-order:
+      - type
+      - const
+      - var
+      - func
+    ignore-underscore-vars: false
+    disable-dec-order-check: true
+    disable-init-func-first-check: false
+    disable-dec-num-check: true
+    disable-type-dec-num-check: false
+    disable-const-dec-num-check: false
+    disable-var-dec-num-check: false
+
+  dogsled:
+    max-blank-identifiers: 3
+
+  dupl:
+    threshold: 100
+
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+    disable-default-exclusions: false
+
+  gci:
+    skip-generated: true
+
+  gocritic:
+    disable-all: true
+    enabled-checks:
+      - appendAssign
+      - appendCombine
+      - badSorting
+      - boolExprSimplify
+      - builtinShadow
+      - builtinShadowDecl
+      - captLocal
+      - caseOrder
+      - commentFormatting
+      - commentedOutCode
+      - commentedOutImport
+      - defaultCaseOrder
+      - deferInLoop
+      - deferUnlambda
+      - dupArg
+      - dupBranchBody
+      - dupCase
+      - dupImport
+      - elseif
+      - emptyDecl
+      - emptyFallthrough
+      - exitAfterDefer
+      - externalErrorReassign
+      - filepathJoin
+      - ifElseChain
+      - importShadow
+      - methodExprCall
+      - nestingReduce
+      - newDeref
+      - nilValReturn
+      - offBy1
+      - paramTypeCombine
+      - preferFilepathJoin
+      - rangeExprCopy
+      - regexpMust
+      - singleCaseSwitch
+      - sloppyLen
+      - sloppyTypeAssert
+      - stringsCompare
+      - switchTrue
+      - syncMapLoadAndDelete
+      - timeExprSimplify
+      - todoCommentWithoutDetail
+      - tooManyResultsChecker
+      - truncateCmp
+      - typeAssertChain
+      - typeDefFirst
+      - typeSwitchVar
+      - typeUnparen
+      - uncheckedInlineErr
+      - underef
+      - unlabelStmt
+      - unlambda
+      - unnecessaryBlock
+      - unnecessaryDefer
+      - unslice
+      - valSwap
+      - weakCond
+      - whyNoLint
+      - wrapperFunc
+      - yodaStyleExpr
+
+  misspell:
+    locale: US
+
+linters:
+  enable:
+    - gocognit
+    - funlen
+    - nestif
+    - nilerr
+    - gosec
+    - mnd
+
+    - goconst
+    - tagliatelle
+    - varnamelen
+    - wastedassign
+    - wsl
+    - misspell
+    - nakedret
+    - nlreturn
+
+    - nolintlint
+    - unused
+    - decorder
+    - dogsled
+    - dupl
+    - errcheck
+    - gocritic
+
+  fast: false
+
+issues:
+  exclude-dirs-use-default: false
+  fix: false
