@@ -156,7 +156,6 @@ func (s Server) handle(conn net.Conn) {
 
 	nonceBuf := make([]byte, model.MaxNonceSize)
 	if _, err = conn.Read(nonceBuf); err != nil {
-		fmt.Println("ERRRRRRRRRR")
 		s.log.Error("read from conn", zap.Error(err))
 
 		return

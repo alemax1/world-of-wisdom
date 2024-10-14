@@ -2,24 +2,16 @@ package main
 
 import (
 	"flag"
-	"os"
 
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 
 	"github.com/alemax1/world-of-wisdom/internal/client"
+	"github.com/alemax1/world-of-wisdom/pkg/logger"
 	"github.com/alemax1/world-of-wisdom/pkg/pow"
 )
 
 func main() {
-	loggerConfig := zap.NewDevelopmentEncoderConfig()
-	loggerConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
-
-	logger := zap.New(zapcore.NewCore(
-		zapcore.NewConsoleEncoder(loggerConfig),
-		zapcore.AddSync(os.Stdout),
-		zapcore.DebugLevel,
-	))
+	log := logger.New()
 
 	var addr string
 
@@ -28,9 +20,9 @@ func main() {
 
 	solver := pow.NewSolver()
 
-	cl := client.New(solver, addr, logger)
+	cl := client.New(solver, addr, log)
 
 	if err := cl.Run(); err != nil {
-		logger.Error("run client", zap.Error(err))
+		log.Error("run client", zap.Error(err))
 	}
 }
